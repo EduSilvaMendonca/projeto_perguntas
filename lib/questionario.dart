@@ -7,26 +7,27 @@ class Questionario extends StatelessWidget {
   final int perguntaSelecionada;
   final void Function() quandoResponder;
 
-  Questionario({
-    @required this.perguntas, 
-    @required this.perguntaSelecionada, 
-    @required this.quandoResponder
-    });
+  Questionario(
+      {@required this.perguntas,
+      @required this.perguntaSelecionada,
+      @required this.quandoResponder});
 
-    bool get temPerguntaSelecionada {
+  bool get temPerguntaSelecionada {
     return perguntaSelecionada < perguntas.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> respostas = temPerguntaSelecionada
+    List<Map<String, Object>> respostas = temPerguntaSelecionada
         ? perguntas[perguntaSelecionada]['respostas']
         : null;
 
     return Column(
       children: [
         Questao(perguntas[perguntaSelecionada]['texto']),
-        ...respostas.map((t) => Resposta(t, quandoResponder)).toList(),
+        ...respostas
+            .map((resp) => Resposta(resp['texto'], quandoResponder))
+            .toList(),
       ],
     );
   }
